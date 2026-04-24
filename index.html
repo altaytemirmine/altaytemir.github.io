@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Altay Temir - Maden Yaşam Hattı</title>
+    <style>
+        /* Temel Sıfırlamalar ve Font Ayarları */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* --- ANA ARKA PLAN AYARI --- */
+        body, html {
+            height: 100%;
+            color: #ffffff;
+            scroll-behavior: smooth;
+            background-color: #050505;
+            background-image: linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.75)), url('arkaplan.jpeg');
+            background-size: 80% auto;
+            background-position: center 60%; 
+            background-attachment: fixed; 
+            background-repeat: no-repeat;
+        }
+
+        /* --- ÖRÜMCEK AĞI (PARTICLE) EFEKTİ CSS --- */
+        #spider-web {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        section, footer {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Navigasyon Çubuğu */
+        header {
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 170, 0, 0.2);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: #ffaa00; 
+            text-transform: uppercase;
+        }
+
+        nav ul { list-style: none; display: flex; gap: 2rem; }
+        nav a { color: #e0e0e0; text-decoration: none; font-weight: 600; font-size: 0.85rem; letter-spacing: 2px; transition: color 0.3s; text-transform: uppercase; }
+        nav a:hover { color: #ffaa00; }
+
+        /* Ana Giriş Bölümü */
+        #anasayfa { padding: 8rem 5% 4rem; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+        
+        .hero-content { max-width: 800px; }
+        .hero-content h2 { color: #ffaa00; font-size: 1.5rem; letter-spacing: 3px; margin-bottom: 1rem; text-transform: uppercase; }
+        .hero-content h1 { font-size: 4.5rem; font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: -1px; text-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .hero-content p { font-size: 1.25rem; color: #e0e0e0; margin-bottom: 2.5rem; line-height: 1.6; max-width: 600px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+
+        .btn { display: inline-block; padding: 1rem 2.5rem; background-color: rgba(0,0,0,0.5); color: #ffaa00; border: 2px solid #ffaa00; text-decoration: none; font-weight: bold; font-size: 1rem; letter-spacing: 1px; text-transform: uppercase; transition: all 0.3s ease; backdrop-filter: blur(5px); }
+        .btn:hover { background-color: #ffaa00; color: #000; box-shadow: 0 0 20px rgba(255, 170, 0, 0.4); }
+
+        /* Ortak Başlık CSS */
+        .section-title { font-size: 2.5rem; margin-bottom: 4rem; text-align: center; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        .section-title span { color: #ffaa00; }
+
+        /* AMKS ÖZELLİKLERİ */
+        #teknoloji {
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.95) 20%, rgba(0,0,0,0.95) 80%, transparent);
+            padding: 8rem 5%;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 4px solid #ffaa00;
+            padding: 3rem 2rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-15px);
+            background: rgba(20, 20, 20, 0.8);
+            border-color: rgba(255, 170, 0, 0.3);
+            box-shadow: 0 15px 40px rgba(255, 170, 0, 0.15);
+        }
+
+        .feature-card h3 {
+            color: #ffffff;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .feature-card p {
+            color: #a0a0a0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #ffaa00;
+            margin-bottom: 1.5rem;
+        }
+
+        /* SİSTEM MİMARİSİ ŞEMALARI */
+        #mimari {
+            background: rgba(0,0,0,0.95);
+            padding: 4rem 5% 8rem;
+        }
+
+        .diagram-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        .diagram-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 170, 0, 0.2);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .diagram-box h3 {
+            color: #ffaa00;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .diagram-box p {
+            color: #cccccc;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .diagram-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Takım Bölümü */
+        #takim { background: transparent; padding: 6rem 5%; min-height: auto; }
+        .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto; }
+        
+        .team-member { background-color: transparent; perspective: 1000px; height: 160px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: left; transition: transform 0.6s; transform-style: preserve-3d; }
+        .team-member:hover .flip-card-inner { transform: rotateY(180deg); }
+        
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; padding: 2rem; display: flex; flex-direction: column; justify-content: center; }
+        .flip-card-front { background: rgba(0, 0, 0, 0.5); border-top: 3px solid transparent; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.05); }
+        .flip-card-front h3 { font-size: 1.2rem; color: #fff; text-transform: uppercase; }
+        .flip-card-back { background: rgba(0, 0, 0, 0.8); border-top: 3px solid #ffaa00; transform: rotateY(180deg); backdrop-filter: blur(5px); }
+        .flip-card-back p.role { color: #ffaa00; font-size: 0.9rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .flip-card-back p.desc { color: #e0e0e0; font-size: 0.8rem; line-height: 1.4; }
+
+        /* --- MODAL (AÇILIR PENCERE) CSS --- */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px); }
+        .modal-content { background-color: #0a0a0a; margin: 3% auto; padding: 2.5rem; border-top: 4px solid #ffaa00; border-radius: 8px; width: 85%; max-width: 900px; position: relative; animation: modalFadeIn 0.4s; box-shadow: 0 10px 40px rgba(0,0,0,0.8); max-height: 90vh; overflow-y: auto; }
+        .close-btn { color: #888; position: absolute; right: 20px; top: 15px; font-size: 35px; font-weight: bold; cursor: pointer; transition: color 0.3s; z-index: 10; }
+        .close-btn:hover { color: #ffaa00; }
+        .modal-body { display: flex; gap: 3rem; align-items: flex-start; }
+        .modal-body img { width: 280px; height: auto; border-radius: 8px; border: 1px solid rgba(255, 170, 0, 0.3); box-shadow: 0 5px 15px rgba(0,0,0,0.5); object-fit: cover; }
+        .modal-info { flex: 1; }
+        .modal-info h2 { color: #fff; font-size: 2rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .modal-info h3 { color: #ffaa00; font-size: 1.1rem; margin-bottom: 1.5rem; text-transform: uppercase; font-weight: 600; border-bottom: 1px solid rgba(255, 170, 0, 0.2); padding-bottom: 0.5rem; }
+        .modal-info p { color: #cccccc; line-height: 1.7; font-size: 1.05rem; margin-bottom: 1rem; text-align: justify; }
+        @media (max-width: 768px) { .modal-body { flex-direction: column; align-items: center; text-align: center; } .modal-body img { width: 220px; } .modal-content { margin: 10% auto; padding: 1.5rem; } }
+        @keyframes modalFadeIn { from {opacity: 0; transform: translateY(-30px);} to {opacity: 1; transform: translateY(0);} }
+
+        /* Sponsorlar */
+        #sponsorlar { background: rgba(0,0,0,0.95); padding: 4rem 5% 6rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .sponsors-wrapper { display: flex; justify-content: center; align-items: center; gap: 4rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+        .sponsor-box { background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px); padding: 2.5rem; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease; width: 350px; height: 220px; display: flex; justify-content: center; align-items: center; }
+        .sponsor-box:hover { transform: translateY(-10px); background: rgba(0, 0, 0, 0.8); box-shadow: 0 10px 30px rgba(255, 170, 0, 0.15); border-color: rgba(255, 170, 0, 0.4); }
+        .sponsor-box img { max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0px 0px 8px rgba(255,255,255,0.1)); }
+
+        footer { text-align: center; padding: 3rem 2rem; background: #000; color: #555; font-size: 0.9rem; border-top: 1px solid #111; }
+    </style>
+</head>
+<body>
+
+    <canvas id="spider-web"></canvas>
+
+    <header>
+        <div class="logo-text">ALTAY TEMİR</div>
+        <nav>
+            <ul>
+                <li><a href="#anasayfa">Keşfet</a></li>
+                <li><a href="#teknoloji">Teknolojimiz</a></li>
+                <li><a href="#mimari">Sistem Mimarisi</a></li>
+                <li><a href="#takim">Takım</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="anasayfa">
+        <div class="hero-content">
+            <h2>Maden Yaşam Hattı</h2>
+            <h1>Akıllı Madenci<br>Koruma Sistemi</h1>
+            <p>Yeraltı ve yerüstü madenciliğinde, tehlikeyi kaynağında kontrol altına alıyoruz. D3O koruması, yapay zeka entegrasyonu ve otonom telemetri ağı ile maden kazalarında her sese nefes, her cana güven oluyoruz.</p>
+            <a href="#teknoloji" class="btn">Teknolojiyi İncele</a>
+        </div>
+    </section>
+
+    <section id="teknoloji">
+        <h2 class="section-title">AMKS <span>İnovasyonları</span></h2>
+        <div class="features-grid">
+            
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>D3O Darbe Koruması</h3>
+                <p>Sırt ve kaburga gibi kritik noktalara entegre edilen D3O akıllı polimer paneller, göçük veya çarpma anında oluşan kinetik enerjiyi emerek ölümcül yaralanmaları engeller.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📡</div>
+                <h3>Mesh Haberleşme Ağı</h3>
+                <p>Kapalı madenlerin keskin dönüşlerinde dahi kopmayan, çok düğümlü kablosuz ağ. 3 km'ye kadar iletişim sağlayan otonom konum belirleme ve veri aktarımı.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🫀</div>
+                <h3>Biyometrik & Gaz Takibi</h3>
+                <p>Tuluma entegre sensörler ile madencinin nabzını ve çevresindeki tehlikeli gaz (CH4, CO, O2, H2S) seviyelerini anlık ölçerek merkeze iletir.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>Yapay Zeka Rota Algoritması</h3>
+                <p>Göçük veya panik anlarında yön kaybını önleyen RGB LED omuz yönlendirmeleri ve sesli komutlar ile madenciyi en yakın sığınma odasına (güvenli bölgeye) otonom olarak yönlendirir.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="mimari">
+        <h2 class="section-title">Sistem <span>Mimarisi</span></h2>
+        <div class="diagram-container">
+            
+            <div class="diagram-box">
+                <h3>Maden İçi Telemetri ve Haberleşme Ağı</h3>
+                <p>Mevcut maden altyapısında radikal değişiklikler gerektirmeyen, modüler RF (Radyo Frekansı) telemetri sistemimizin yer altı galeri modeli. Madenci-Madenci ve Madenci-İstasyon kesintisiz iletişimi.</p>
+                
+                <img src="sema.png" onerror="this.onerror=null; this.src='sema.jpg';" alt="Telemetri ve Haberleşme Ağı Şeması">
+            </div>
+
+        </div>
+    </section>
+
+    <section id="takim">
+        <h2 class="section-title">Uzman <span>Kadromuz</span></h2>
+        <div class="team-grid">
+            
+            <div class="team-member" onclick="openModal('modal-okan')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>OKAN DORUK</h3></div>
+                    <div class="flip-card-back">
+                        <p class="role">Takım Danışmanı</p>
+                        <p class="desc">Arş. Gör. Dr..</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member" onclick="openModal('modal-fatma')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>FATMA ZEHRA KONAKTAŞ</h3></div>
+                    <div class="flip-card-back">
+                        <p class="role">Takım Kaptanı</p>
+                        <p class="desc">Biyoloji Öğretmenliği 4. Sınıf Öğrencisi.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member" onclick="openModal('modal-batughan')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>BATUĞHAN YIKMAZ</h3></div>
+                    <div class="flip-card-back">
+                        <p class="role">Jeofizik Y. Müh. - Danışman</p>
+                        <p class="desc">Yeraltı Görüntüleme ve Konumlama Stratejileri.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member" onclick="openModal('modal-gokhan')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>GÖKHAN İLHANLAR</h3></div>
+                    <div class="flip-card-back">
+                        <p class="role">Maden Mühendisi</p>
+                        <p class="desc">İş Sağlığı ve Güvenliği Odaklı Mühendis.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member" onclick="openModal('modal-munevver')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>MÜNEVVER NUR LATİF</h3></div>
+                    <div class="flip-card-back">
+                        <p class="role">EYS Uzmanı</p>
+                        <p class="desc">Maden Mühendisi, İSG Yüksek Lisans Mezunu.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member" onclick="openModal('modal-enes')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>ENES ALYURT</h3></div>
+                    <div class="flip-card-back">
+                        <p class="role">Elektronik Mühendisi Adayı</p>
+                        <p class="desc">Elektronik Bileşen ve Devre Tasarım Sorumlusu.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-member" onclick="openModal('modal-onurhan')">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front"><h3>ONURHAN MISIRLIOĞLU</h3></div>
+                    <div class="flip-card-back">
+                        <p class="role">Makine Mühendisi Adayı</p>
+                        <p class="desc">Yapısal Tasarım ve Üretim Sorumlusu.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <div id="modal-okan" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-okan')">&times;</span>
+            <div class="modal-body">
+                <img src="img/okan.png" alt="Arş. Gör. Dr. Okan Doruk">
+                <div class="modal-info">
+                    <h2>Arş. Gör. Dr. Okan DORUK</h2>
+                    <h3>Takım Danışmanı</h3>
+                    <p>Altay Temir Takımı Danışmanı olarak projenin akademik ve teknik rehberliğini yürütmektedir.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-fatma" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-fatma')">&times;</span>
+            <div class="modal-body">
+                <img src="img/fatma.png" alt="Fatma Zehra Konaktaş">
+                <div class="modal-info">
+                    <h2>Fatma Zehra Konaktaş</h2>
+                    <h3>Takım Kaptanı / İletişim Sorumlusu</h3>
+                    <p>Gazi Üniversitesi Biyoloji Öğretmenliği bölümü 4. sınıf öğrencisiyim. Çeşitli topluluklarda liderlik, ekip çalışması ve organizasyon alanlarında deneyim kazandım.</p>
+                    <p>2023 yılında TÜBİTAK 2209-A projesine başvuruda bulundum. TEKNOFEST 2024 İnsanlık Yararına Teknolojiler kategorisinde takım kaptanlığı yaparak yarı finale yükseldim. Takım bünyesinde projenin yönetilmesi, raporlama ve sunum süreçlerini yürütmekteyim.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-batughan" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-batughan')">&times;</span>
+            <div class="modal-body">
+                <img src="img/batughan.png" alt="Batuğhan Yıkmaz">
+                <div class="modal-info">
+                    <h2>Batuğhan YIKMAZ</h2>
+                    <h3>Jeofizik Y. Mühendisi - Danışman</h3>
+                    <p>Ankara Üniversitesi Jeofizik Mühendisliği bölümü mezunuyum. Şu an Maden Tetkik ve Arama Genel Müdürlüğü (MTA) bünyesinde Jeofizik Y. Mühendisi - Danışman olarak görev yapmaktayım.</p>
+                    <p>Akademik gelişimimi Ankara Üniversitesi Jeofizik Mühendisliği bölümünde tamamlayarak "Yüksek Mühendis" unvanını aldım. Bu süreçte tezimi AFAD Ulusal Deprem Araştırma Projeleri kapsamında gerçekleştirdim. Buna ek olarak Ankara Üniversitesi Biyoloji (Ekoloji) ana bilim dalında ikinci yüksek lisansımı bitirdim. Teknolojik dönüşüme olan ilgimle Yönetim Bilişim Sistemleri (YBS) lisans eğitimime de devam etmekteyim.</p>
+                    <p>Mühendislik disiplinimi, okçuluk dalında uzun yıllar sürdürdüğüm Milli Sporcu kimliğimden gelen azim ve kararlılıkla birleştiriyorum. Takım bünyesinde; mesleki deneyim ve akademik tecrübelerim ile yeraltı görüntüleme konumlama stratejileri, veri analizleri ve maden sahalarına yönelik teknolojik sistemlerin geliştirilmesinden sorumlu olarak görev almaktayım.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-gokhan" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-gokhan')">&times;</span>
+            <div class="modal-body">
+                <img src="img/gokhan.png" alt="Gökhan İlhanlar">
+                <div class="modal-info">
+                    <h2>Gökhan İLHANLAR</h2>
+                    <h3>Maden Mühendisi</h3>
+                    <p>İnönü Üniversitesi Maden Mühendisliği Bölümü'nden 2008 yılında mezun oldum. 2009 yılından bu yana madencilik sektöründe aktif olarak görev yapmaktayım. Kariyerim boyunca kömür, antimuan ve krom başta olmak üzere farklı maden sahalarında önemli sorumluluklar üstlendim.</p>
+                    <p>2019 yılından itibaren iş sağlığı ve güvenliği alanına odaklanarak, çalışma ortamlarının daha güvenli ve insani koşullarda sürdürülebilir hale getirilmesi için çalışmalar yürütmekteyim. Akıllı madenci koruma sistemlerinin mevcut saha koşullarına uygun şekilde ihtiyaç analizlerinin yapılması süreçlerinde aktif rol almaktayım.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-munevver" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-munevver')">&times;</span>
+            <div class="modal-body">
+                <img src="img/munevver.png" alt="Münevver Nur Latif">
+                <div class="modal-info">
+                    <h2>Münevver Nur LATİF</h2>
+                    <h3>Maden Mühendisi / EYS Uzmanı</h3>
+                    <p>Hacettepe Üniversitesi Maden Mühendisliği bölümünden 2019 yılında mezun oldum. İş sağlığı ve güvenliği alanında yüksek lisansımı tamamladım.</p>
+                    <p>Kariyerim boyunca krom, altın, gümüş ve bakır cevherlerinin zenginleştirilmesi süreçlerinde proses mühendisi olarak aktif rol aldım. Şu an EYS Uzmanı olarak çalışmalarımı sürdürmekteyim.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-enes" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-enes')">&times;</span>
+            <div class="modal-body">
+                <img src="img/enes.png" alt="Enes Alyurt">
+                <div class="modal-info">
+                    <h2>Enes ALYURT</h2>
+                    <h3>Elektrik Elektronik Mühendisi Adayı</h3>
+                    <p>Kırıkkale Üniversitesi'nde 4. sınıf öğrencisiyim. İHA, İnsansız Su Altı Sistemleri ve İDA yarışmalarında finalistlik dereceleri ve tecrübeler kazandım.</p>
+                    <p>Takım içerisinde tüm elektronik bileşenlerin bağlantı kurguları, devre tasarımları ve donanım uyumluluğu süreçlerinden sorumluyum.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-onurhan" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('modal-onurhan')">&times;</span>
+            <div class="modal-body">
+                <img src="img/onurhan.png" alt="Onurhan Mısırlıoğlu">
+                <div class="modal-info">
+                    <h2>Onurhan MISIRLIOĞLU</h2>
+                    <h3>Makine Mühendisi Adayı</h3>
+                    <p>Kırıkkale Üniversitesi Makine Mühendisliği 4. sınıf öğrencisiyim. Tasarım yapma ve üretme süreçlerine duyduğum ilgiyle projenin yapısal süreçlerini yönetmekteyim.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="sponsorlar">
+        <h2 class="section-title">Ana <span>Sponsorlarımız</span></h2>
+        <div class="sponsors-wrapper">
+            <div class="sponsor-box"><img src="img/images.webp" alt="Teknofest"></div>
+            <div class="sponsor-box"><img src="img/genclikmerkezi.png" alt="T.C. Gençlik Merkezleri"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Altay Temir. Tüm Hakları Saklıdır.</p>
+    </footer>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+            document.body.style.overflow = "hidden";
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        const canvas = document.getElementById('spider-web');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        let particles = [];
+        const particleCount = 70;
+        const connectionDistance = 150;
+        const mouseDistance = 200;
+        let mouse = { x: null, y: null };
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+        window.addEventListener('resize', () => { width = canvas.width = window.innerWidth; height = canvas.height = window.innerHeight; init(); });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = (Math.random() - 0.5) * 1.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > height) this.vy = -this.vy;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 170, 0, 0.7)';
+                ctx.fill();
+            }
+        }
+
+        function init() { particles = []; for (let i = 0; i < particleCount; i++) { particles.push(new Particle()); } }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(); particles[i].draw();
+                for (let j = i; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < connectionDistance) {
+                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y);
+                        let opacity = 1 - (dist / connectionDistance);
+                        ctx.strokeStyle = `rgba(255, 170, 0, ${opacity * 0.2})`;
+                        ctx.lineWidth = 1; ctx.stroke();
+                    }
+                }
+                if (mouse.x && mouse.y) {
+                    let dx = particles[i].x - mouse.x;
+                    let dy = particles[i].y - mouse.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouseDistance) {
+                        ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(mouse.x, mouse.y);
+                        let opacity = 1 - (dist / mouseDistance);
+                        ctx.strokeStyle = `rgba(255, 170, 0, ${opacity * 0.6})`;
+                        ctx.lineWidth = 1.5; ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init(); animate();
+    </script>
+
+</body>
+</html>
